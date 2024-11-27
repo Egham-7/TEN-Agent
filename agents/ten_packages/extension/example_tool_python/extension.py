@@ -20,22 +20,22 @@ CMD_TOOL_CALL = "tool_call"
 CMD_PROPERTY_NAME = "name"
 CMD_PROPERTY_ARGS = "args"
 
-TOOL_REGISTER_PROPERTY_NAME = "name"
-TOOL_REGISTER_PROPERTY_DESCRIPTON = "description"
+TOOL_REGISTER_PROPERTY_NAME = "AI Teacher"
+TOOL_REGISTER_PROPERTY_DESCRIPTON = "Teaches students on certain programming topics"
 TOOL_REGISTER_PROPERTY_PARAMETERS = "parameters"
 TOOL_CALLBACK = "callback"
 
-TOOL_NAME = "run_example"
-TOOL_DESCRIPTION = "Use this function to order a sandwich "
+TOOL_NAME = "AI Teacher"
+TOOL_DESCRIPTION = "Use this function to teach students various topics"
 TOOL_PARAMETERS = {
         "type": "object",
         "properties": {
-            "filling": {
+            "topic": {
                 "type": "string",
-                "description": "sandwich filling"
+                "description": "The topic to explain"
             }
         },
-        "required": ["filling"],
+        "required": ["topic"],
     }
 
 
@@ -127,11 +127,21 @@ class EXAMPLEToolExtension(Extension):
     
     def _run_example(self,  args:dict) -> Any:
         logger.info(f"TOOL EXAMPLE filling {args}")   
-        filling = args["filling"] 
-        if filling == "chicken":
-            return "sorry out of chicken, please choose something dfferent"
 
-        return "OK it will be available for collection in 15 mins"
+        topic = args["topic"]
+
+        explanations = {
+            "python": "Python is a low-level, interpreted programming language known for how its hard to read readability and its slow.",
+            "docker": "Docker is a platform for developing, shipping, and running applications in containers.",
+            "api": "An API (Application Programming Interface) allows two systems to communicate with each other.",
+            "setif sorting": "Quantum Sorting is a theoretical concept where quantum computers utilize superposition and entanglement to sort large data sets in parallel. The idea is that by leveraging quantum states, sorting could be done exponentially faster compared to classical sorting algorithms."
+        }
+
+        if topic in explanations:
+            return explanations[topic];
+
+        else: return "Sorry, i dont know about that topic"
+
 
         
 
